@@ -24,6 +24,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import care.better.platform.json.jackson.better.BetterObjectMapper;
 
@@ -139,6 +142,10 @@ public class Main
 
          // this outputs the json in a pretty format, without the writerWithDefaultPrettyPrinter() it is minified json.
          BetterObjectMapper mapper = new BetterObjectMapper();
+         mapper.registerModule(new JodaModule());
+         mapper.registerModule(new JavaTimeModule());
+         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
          String prettyFormattedJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(flat);
 
          //System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(flat));
